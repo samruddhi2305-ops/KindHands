@@ -18,15 +18,17 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- Removed MAIN/LAUNCHER intent filter from here -->
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
+            android:exported="true">
+             <!-- Added MAIN/LAUNCHER intent filter here -->
+             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
@@ -35,6 +37,9 @@
             android:exported="false" />
         <activity
             android:name=".DonationDetailsActivity"
+            android:exported="false" />
+        <activity 
+            android:name=".RegisterOrganizationActivity" 
             android:exported="false" />
     </application>
 

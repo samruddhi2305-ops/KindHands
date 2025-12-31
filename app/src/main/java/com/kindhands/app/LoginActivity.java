@@ -17,6 +17,7 @@ import com.kindhands.app.model.OrganizationLoginRequest;
 import com.kindhands.app.model.User;
 import com.kindhands.app.network.ApiService;
 import com.kindhands.app.network.RetrofitClient;
+import com.kindhands.app.utils.SharedPrefManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +34,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // CHECK IF ALREADY LOGGED IN
+        if (SharedPrefManager.getInstance(this).isLoggedIn()) {
+            Intent intent = new Intent(LoginActivity.this, AddDonationActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         setContentView(R.layout.login);
 
         // Initialize views
@@ -78,8 +88,12 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            Toast.makeText(LoginActivity.this, "Welcome Donor " + response.body().getName(), Toast.LENGTH_SHORT).show();
+                            User user = response.body();
+                            Toast.makeText(LoginActivity.this, "Welcome Donor " + user.getName(), Toast.LENGTH_SHORT).show();
                             
+                            // SAVE USER SESSION
+                            SharedPrefManager.getInstance(LoginActivity.this).saveUser(user.getName(), user.getEmail(), "DONOR");
+
                             // Navigate to Dashboard
                             Intent intent = new Intent(LoginActivity.this, AddDonationActivity.class);
                             startActivity(intent);
@@ -96,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
             } else {
-                // ORGANIZATION LOGIN (Orphanage or Old Age Home)
+                // ORGANIZATION LOGIN
                 OrganizationLoginRequest loginRequest = new OrganizationLoginRequest(email, password);
                 Call<Organization> call = apiService.loginOrganization(loginRequest);
 
@@ -104,10 +118,13 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Organization> call, Response<Organization> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            Toast.makeText(LoginActivity.this, "Welcome " + response.body().getName(), Toast.LENGTH_SHORT).show();
+                            Organization org = response.body();
+                            Toast.makeText(LoginActivity.this, "Welcome " + org.getName(), Toast.LENGTH_SHORT).show();
                             
-                            // Navigate to Dashboard (Maybe different for Org?)
-                            // For now, going to same screen, but you can change this
+                            // SAVE USER SESSION
+                            SharedPrefManager.getInstance(LoginActivity.this).saveUser(org.getName(), org.getEmail(), "ORGANIZATION");
+
+                            // Navigate to Dashboard
                             Intent intent = new Intent(LoginActivity.this, AddDonationActivity.class);
                             startActivity(intent);
                             finish();

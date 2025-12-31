@@ -3,7 +3,9 @@ package com.kindhands.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
+import com.kindhands.app.utils.SharedPrefManager;
 
 public class AddDonationActivity extends AppCompatActivity {
 
@@ -27,6 +29,20 @@ public class AddDonationActivity extends AppCompatActivity {
         if (medical != null) medical.setOnClickListener(v -> openForm("medical"));
         if (toys != null) toys.setOnClickListener(v -> openForm("toys"));
         if (stationery != null) stationery.setOnClickListener(v -> openForm("stationery"));
+
+        // Add Logout Button Logic
+        // We will assume there is a button with id 'btnLogout' in your layout or we can add one dynamically.
+        // For now, let's look for a button if it exists or add it to the layout later.
+        Button btnLogout = findViewById(R.id.btnLogout); 
+        if (btnLogout != null) {
+            btnLogout.setOnClickListener(v -> {
+                SharedPrefManager.getInstance(this).logout();
+                Intent intent = new Intent(AddDonationActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            });
+        }
     }
 
     private void openForm(String category) {

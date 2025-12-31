@@ -11,16 +11,34 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:text="What would you like to donate?"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/primary_text"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="8dp"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"/>
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="What would you like to donate?"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_text"
+                android:layout_centerInParent="true"/>
+
+            <!-- Logout Button -->
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="@color/design_default_color_error"
+                android:minWidth="0dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="12sp"
+                android:layout_marginStart="8dp"/>
+        </RelativeLayout>
 
         <GridLayout
             android:columnCount="2"

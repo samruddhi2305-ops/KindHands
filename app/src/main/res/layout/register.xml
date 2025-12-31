@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:fillViewport="true">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="24dp"
     tools:context=".RegisterActivity">
@@ -12,26 +17,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/register_title"
+        android:text="Registration"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/primary_text"
         android:layout_marginBottom="24dp"/>
-
-    <!-- User Type Spinner -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/select_user_type"
-        android:layout_marginBottom="8dp"
-        android:textColor="@color/primary_text"/>
-
-    <Spinner
-        android:id="@+id/spinnerUserType"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginBottom="12dp"
-        android:background="@android:drawable/btn_dropdown"/>
 
     <!-- Full Name -->
     <EditText
@@ -66,6 +56,41 @@
         android:minHeight="48dp"
         android:layout_marginBottom="12dp"/>
 
+    <!-- Address (New) -->
+    <EditText
+        android:id="@+id/etRegisterAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Address"
+        android:inputType="textPostalAddress"
+        android:minHeight="48dp"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Pincode (New) -->
+    <EditText
+        android:id="@+id/etRegisterPincode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Pincode"
+        android:inputType="number"
+        android:maxLength="6"
+        android:minHeight="48dp"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Gender (New) -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gender"
+        android:layout_marginBottom="4dp"/>
+    
+    <Spinner
+        android:id="@+id/spinnerGender"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="12dp"
+        android:background="@android:drawable/btn_dropdown"/>
+
     <!-- Password -->
     <EditText
         android:id="@+id/etRegisterPassword"
@@ -93,9 +118,20 @@
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:text="@string/register_button"
+        android:text="Register"
         android:backgroundTint="@color/donate_green"
         android:layout_marginBottom="16dp"/>
+
+    <!-- Link to Organization Registration (Text instead of Button) -->
+    <TextView
+        android:id="@+id/tvGoToOrgRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Are you an Organization? Register Here"
+        android:textColor="@color/ngo_blue"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginBottom="8dp"/>
 
     <!-- Login Link -->
     <TextView
@@ -110,3 +146,4 @@
         android:padding="8dp"/>
 
 </LinearLayout>
+</ScrollView>
