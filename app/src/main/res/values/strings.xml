@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">Kind Hands</string>
+    <string name="app_logo_desc">Kind Hands Logo</string>
+    <string name="tagline">Connecting Donors with Needy Hearts</string>
+    <string name="donate_items">Donate Items</string>
+    <string name="ngo_login">Organization Login</string>
+    <string name="register_prompt">New User? Register Here</string>
+    <string name="welcome_message">Welcome to Kind Hands – Small Help, Big Smiles</string>
+    <string name="card_donate">Donate</string>
+    <string name="card_ngo_needs">NGO Needs</string>
+    <string name="card_how_it_works">How It Works</string>
+    <string name="what_you_can_donate">What You Can Donate</string>
+    <string name="cat_clothes">👕 Clothes</string>
+    <string name="cat_books">📚 Books</string>
+    <string name="cat_food">🍞 Food</string>
+    <string name="cat_toys">🧸 Toys</string>
+    <string name="impact_donors">🧑‍🤝‍🧑 120+ Donors</string>
+    <string name="impact_ngos">🏠 45 NGOs</string>
+    <string name="impact_items">📦 300+ Items</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">Login</string>
+    <string name="register_link">Don\'t have an account? Register</string>
+    
+    <!-- Register Screen Strings -->
+    <string name="register_title">Create Account</string>
+    <string name="full_name_hint">Full Name</string>
+    <string name="phone_hint">Phone Number</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="register_button">Register</string>
+    <string name="already_have_account">Already have an account? Login</string>
+    <string name="user_type_orphanage">Orphanage</string>
+    <string name="user_type_oldage">Old Age Home</string>
+    <string name="user_type_donor">Donor</string>
+    <string name="select_user_type">Select User Type</string>
+
+    <!-- Donation Details Strings -->
+    <string name="donation_details_title">Donation Details</string>
+    <string name="item_description_hint">Item Description</string>
+    <string name="quantity_hint">Quantity</string>
+    <string name="condition_label">Condition</string>
+    <string name="condition_new">New</string>
+    <string name="condition_used">Gently Used</string>
+    <string name="condition_repair">Needs Repair</string>
+    <string name="preferred_ngo_hint">Preferred NGO (optional)</string>
+    <string name="submit_button">SUBMIT</string>
+    <string name="book_name_hint">Book Name</string>
+    <string name="book_category_hint">Category (Education, Story, Religious)</string>
+    <string name="medicine_name_hint">Medicine Name</string>
+    <string name="medicine_expiry_hint">Expiry Date</string>
+    <string name="toy_type_label">Toy Type</string>
+</resources>

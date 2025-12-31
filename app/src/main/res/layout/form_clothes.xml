@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Type of Clothes"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <CheckBox
+        android:id="@+id/cbShirt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shirt"/>
+
+    <CheckBox
+        android:id="@+id/cbSaree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Saree"/>
+
+    <CheckBox
+        android:id="@+id/cbPants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pants"/>
+
+    <CheckBox
+        android:id="@+id/cbOthers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Others"/>
+
+    <EditText
+        android:id="@+id/etOtherClothes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Please specify other clothes"
+        android:visibility="gone"
+        android:inputType="text"
+        android:autofillHints="name"
+        android:layout_marginBottom="8dp"/>
+    
+    <EditText
+        android:hint="Size (S, M, L, XL)"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="none"
+        android:inputType="text"/>
+
+    <EditText
+        android:hint="@string/quantity_hint"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="none"/>
+</LinearLayout>
