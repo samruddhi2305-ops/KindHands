@@ -67,7 +67,16 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            // TRY DONOR LOGIN FIRST
+            // CHECK FOR ADMIN LOGIN FIRST
+            if ("admin@kindhands.com".equals(email) && "admin123".equals(password)) {
+                Toast.makeText(LoginActivity.this, "Welcome Admin!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+                startActivity(intent);
+                finish();
+                return; // Stop further execution
+            }
+
+            // IF NOT ADMIN, TRY DONOR LOGIN
             ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
             User loginUser = new User(email, password);
             Call<User> callDonor = apiService.loginDonor(loginUser);
@@ -95,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
             });
         });
 
-        // Register Click -> Opens Role Selection Page
+        // Register Click
         tvRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RoleSelectionActivity.class);
             startActivity(intent);
