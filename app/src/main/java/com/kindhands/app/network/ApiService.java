@@ -13,7 +13,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-// import retrofit2.http.Query; // Use this if you need query params
+import retrofit2.http.Query; // Fixed: Query is correct for Retrofit
 
 public interface ApiService {
 
@@ -70,4 +70,14 @@ public interface ApiService {
 
     @POST("organizations/login")
     Call<Organization> loginOrganization(@Body OrganizationLoginRequest loginRequest);
+
+    // --- ADMIN PANNEL ENDPOINTS (New) ---
+    
+    // Get all organizations with a specific status (e.g., PENDING)
+    @GET("organizations/pending") 
+    Call<List<Organization>> getPendingOrganizations(); // Backend might need this if not exists
+
+    // Approve or Reject an Organization
+    @PUT("organizations/{id}/status")
+    Call<Organization> updateOrgStatus(@Path("id") Long id, @Query("status") String status);
 }
