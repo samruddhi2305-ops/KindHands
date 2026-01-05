@@ -7,48 +7,44 @@ import com.kindhands.app.model.User;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
-import retrofit2.http.Query; // Fixed: Query is correct for Retrofit
+import retrofit2.http.Query;
 
 public interface ApiService {
 
     // --- REQUEST CONTROLLER ---
-    
-    // 1. Create a request (Organization asks for donation OR Donor offers donation - depends on usage)
     @POST("requests/create")
     Call<DonationRequest> createRequest(@Body DonationRequest requestBody);
 
-    // 2. Get all open requests
     @GET("requests/open")
     Call<List<DonationRequest>> getOpenRequests();
 
-    // 3. Accept a request (Donor accepts to fulfill)
     @PUT("requests/{id}/accept/{donorId}")
     Call<DonationRequest> acceptRequest(@Path("id") Long id, @Path("donorId") Long donorId);
 
-    // 4. Reject a request
     @PUT("requests/{id}/reject")
     Call<DonationRequest> rejectRequest(@Path("id") Long id);
 
-    // 5. Get Organization's requests
     @GET("requests/organization/{orgId}")
     Call<List<DonationRequest>> getOrgRequests(@Path("orgId") Long orgId);
 
-    // 6. Mark as Delivered
     @PUT("requests/{id}/delivered")
     Call<DonationRequest> markRequestDelivered(@Path("id") Long id);
 
-    // 7. Complete Request
     @PUT("requests/{id}/complete")
     Call<DonationRequest> completeRequest(@Path("id") Long id);
 
 
-    // --- AUTH CONTROLLER (General) ---
+    // --- AUTH CONTROLLER ---
     @POST("auth/register")
     Call<Object> registerUser(@Body User user);
 
@@ -65,19 +61,33 @@ public interface ApiService {
 
 
     // --- ORGANIZATION CONTROLLER ---
+    
+    // OLD JSON METHOD (Commented out to avoid conflict)
+    // @POST("organizations/register")
+    // Call<Organization> registerOrganization(@Body Organization org);
+
+    // NEW MULTIPART METHOD
+    @Multipart
     @POST("organizations/register")
-    Call<Organization> registerOrganization(@Body Organization org);
+    Call<String> registerOrganization(
+            @Part("name") RequestBody name,
+            @Part("email") RequestBody email,
+            @Part("password") RequestBody password,
+            @Part("contact") RequestBody contact,
+            @Part("type") RequestBody type,
+            @Part("address") RequestBody address,
+            @Part("pincode") RequestBody pincode,
+            @Part MultipartBody.Part document
+    );
 
     @POST("organizations/login")
     Call<Organization> loginOrganization(@Body OrganizationLoginRequest loginRequest);
 
-    // --- ADMIN PANNEL ENDPOINTS (New) ---
-    
-    // Get all organizations with a specific status (e.g., PENDING)
-    @GET("organizations/pending") 
-    Call<List<Organization>> getPendingOrganizations(); // Backend might need this if not exists
 
-    // Approve or Reject an Organization
+    // --- ADMIN PANEL ---
+    @GET("organizations/pending") 
+    Call<List<Organization>> getPendingOrganizations(); 
+
     @PUT("organizations/{id}/status")
     Call<Organization> updateOrgStatus(@Path("id") Long id, @Query("status") String status);
 }
