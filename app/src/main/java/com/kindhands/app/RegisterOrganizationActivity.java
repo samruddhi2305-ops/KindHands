@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.kindhands.app.network.ApiService;
 import com.kindhands.app.network.RetrofitClient;
-import com.kindhands.app.utils.FileUtils; // Assuming this might be needed, or I'll implement a helper
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -2,8 +2,7 @@ package com.kindhands.app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
+import android.util.Log;import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etEmail;
     private EditText etPassword;
     private Button btnLogin;
+    private TextView tvForgotPassword;
     private TextView tvRegister;
 
     @Override
@@ -46,14 +46,22 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etLoginEmail);
         etPassword = findViewById(R.id.etLoginPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        tvForgotPassword = findViewById(R.id.tvForgotPassword);
         tvRegister = findViewById(R.id.tvGoToRegister);
+
+        // Forgot Password Click Listener
+        tvForgotPassword.setOnClickListener(v -> {
+            // Navigate to the activity for entering a phone number
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordPhoneActivity.class);
+            startActivity(intent);
+        });
 
         // Login Button Click
         btnLogin.setOnClickListener(v -> {
 
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
-            
+
             // Validation
             if (email.isEmpty()) {
                 etEmail.setError("Email is required");
@@ -87,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.isSuccessful() && response.body() != null) {
                         User user = response.body();
                         Toast.makeText(LoginActivity.this, "Welcome Donor " + user.getName(), Toast.LENGTH_SHORT).show();
-                        
+
                         SharedPrefManager.getInstance(LoginActivity.this).saveUser(user.getName(), user.getEmail(), "DONOR");
                         navigateToDashboard();
                     } else {
@@ -122,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     Organization org = response.body();
                     Toast.makeText(LoginActivity.this, "Welcome " + org.getName(), Toast.LENGTH_SHORT).show();
-                    
+
                     SharedPrefManager.getInstance(LoginActivity.this).saveUser(org.getName(), org.getEmail(), "ORGANIZATION");
                     navigateToDashboard();
                 } else {
