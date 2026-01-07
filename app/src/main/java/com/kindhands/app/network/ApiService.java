@@ -102,4 +102,7 @@ public interface ApiService {
 
     @PUT("requests/{id}/complete")
     Call<DonationRequest> completeRequest(@Path("id") Long id);
+
+    @GET("api/organizations/admin/document-url/{id}")
+    Call<String> getDocumentUrl(@Path("id") Long id);
 }
