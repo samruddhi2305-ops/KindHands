@@ -78,8 +78,7 @@ public class AddDonationActivity extends AppCompatActivity {
                         if ("REQUIREMENT".equalsIgnoreCase(req.getCategory())) {
                             found = true;
                             String orgName = req.getOtherDetails() != null ? req.getOtherDetails() : "Organization";
-                            reqText.append("• ").append(orgName).append(": ").append(req.getDetails()).append("\n
-");
+                            reqText.append("• ").append(orgName).append(": ").append(req.getDetails()).append("\n");
                         }
                     }
                     
