@@ -19,7 +19,6 @@ import retrofit2.Response;
 public class RegisterOrganizationActivity extends AppCompatActivity {
 
     EditText etName, etEmail, etPassword, etContact, etAddress, etPincode;
-    Spinner spinnerType;
     TextView tvFile;
     Button btnUpload, btnRegister;
 
@@ -37,7 +36,6 @@ public class RegisterOrganizationActivity extends AppCompatActivity {
         etContact = findViewById(R.id.etOrgContact);
         etAddress = findViewById(R.id.etOrgAddress);
         etPincode = findViewById(R.id.etOrgPincode);
-        spinnerType = findViewById(R.id.spinnerOrgType);
         tvFile = findViewById(R.id.tvSelectedFileName);
         btnUpload = findViewById(R.id.btnUploadDocument);
         btnRegister = findViewById(R.id.btnOrgRegister);
@@ -93,9 +91,8 @@ public class RegisterOrganizationActivity extends AppCompatActivity {
 
         File file = new File(selectedFilePath);
 
-        // 🔥 Spinner value backend enum शी match
-        String rawType = spinnerType.getSelectedItem().toString();
-        String type = rawType.equals("Orphanage") ? "ORPHANAGE" : "OLD_AGE_HOME";
+        // 🔥 Removed spinner, use default/fixed type
+        String type = "ORPHANAGE"; // or any default value your backend accepts
 
         ApiService api = RetrofitClient.getClient().create(ApiService.class);
 
@@ -116,7 +113,6 @@ public class RegisterOrganizationActivity extends AppCompatActivity {
                         )
                 )
         );
-
 
         call.enqueue(new Callback<String>() {
             @Override

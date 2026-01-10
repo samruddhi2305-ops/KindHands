@@ -75,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Submit Requirement"
-                android:backgroundTint="@color/ngo_blue"/>
+                android:background="@drawable/btncurve"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

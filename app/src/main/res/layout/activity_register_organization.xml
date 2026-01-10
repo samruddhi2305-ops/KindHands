@@ -22,20 +22,7 @@
             android:textColor="@color/primary_text"
             android:layout_marginBottom="24dp"/>
 
-        <!-- Organization Type Spinner -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Organization Type"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp"/>
 
-        <Spinner
-            android:id="@+id/spinnerOrgType"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginBottom="12dp"
-            android:background="@android:drawable/btn_dropdown"/>
 
         <!-- Name -->
         <EditText
@@ -113,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Select File"
-                android:backgroundTint="@color/ngo_blue"
+                android:background="@drawable/btncurve"
                 android:layout_marginEnd="8dp"/>
 
             <TextView
@@ -158,10 +145,10 @@
         <Button
             android:id="@+id/btnOrgRegister"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="Register Organization"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:backgroundTint="@color/donate_green"/>
+            android:background="@drawable/btncurve"
+            android:text="Register Organization"
 
     </LinearLayout>
 </ScrollView>

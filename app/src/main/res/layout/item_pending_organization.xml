@@ -32,8 +32,9 @@
             android:id="@+id/btnViewCertificate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="View Certificate"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="12dp"
+            android:background="@drawable/btncurve"
+            android:text="View Certificate" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -22,7 +22,7 @@
         android:layout_height="60dp"
         android:text="Donor"
         android:textSize="18sp"
-        android:backgroundTint="@color/donate_green"
+        android:background="@drawable/btncurve"
         android:layout_marginBottom="16dp"/>
 
     <Button
@@ -31,7 +31,7 @@
         android:layout_height="60dp"
         android:text="Orphanage"
         android:textSize="18sp"
-        android:backgroundTint="@color/ngo_blue"
+        android:background="@drawable/btncurve"
         android:layout_marginBottom="16dp"/>
 
     <Button
@@ -40,6 +40,6 @@
         android:layout_height="60dp"
         android:text="Old Age Home"
         android:textSize="18sp"
-        android:backgroundTint="@color/ngo_blue"/>
+        android:background="@drawable/btncurve"/>
 
 </LinearLayout>
