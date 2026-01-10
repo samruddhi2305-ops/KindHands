@@ -53,6 +53,15 @@ public class RegisterOrganizationActivity extends AppCompatActivity {
                             tvFile.setText(file.getName());
                         }
                     }
+                    String[] orgTypes = {"Orphanage", "Old Age Home"};
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                            this,
+                            android.R.layout.simple_spinner_dropdown_item,
+                            orgTypes
+                    );
+                    spinnerType.setAdapter(adapter);
+
                 });
 
         btnUpload.setOnClickListener(v -> {
@@ -84,14 +93,21 @@ public class RegisterOrganizationActivity extends AppCompatActivity {
         }
     }
 
-    private void register() {
+        private void register() {
 
-        if (selectedFilePath == null) {
-            Toast.makeText(this, "Please upload document", Toast.LENGTH_SHORT).show();
-            return;
-        }
+            if (spinnerType.getSelectedItem() == null) {
+                Toast.makeText(this, "Select organization type", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-        File file = new File(selectedFilePath);
+            if (selectedFilePath == null) {
+                Toast.makeText(this, "Please upload document", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            File file = new File(selectedFilePath);
+
+
 
         // 🔥 Spinner value backend enum शी match
         String rawType = spinnerType.getSelectedItem().toString();
