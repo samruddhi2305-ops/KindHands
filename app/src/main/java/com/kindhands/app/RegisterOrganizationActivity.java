@@ -4,14 +4,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.*;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.kindhands.app.network.ApiService;
 import com.kindhands.app.network.RetrofitClient;
+
 import java.io.*;
-import okhttp3.*;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,7 +29,8 @@ public class RegisterOrganizationActivity extends AppCompatActivity {
     TextView tvFile;
     Button btnUpload, btnRegister;
 
-    String selectedFilePath;
+    String selectedFilePath = null;
+
     ActivityResultLauncher<Intent> launcher;
 
     @Override
@@ -53,7 +60,8 @@ public class RegisterOrganizationActivity extends AppCompatActivity {
                             tvFile.setText(file.getName());
                         }
                     }
-                });
+                }
+        );
 
         btnUpload.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -73,11 +81,14 @@ public class RegisterOrganizationActivity extends AppCompatActivity {
 
             byte[] buf = new byte[1024];
             int len;
-            while ((len = in.read(buf)) > 0) out.write(buf, 0, len);
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
 
             in.close();
             out.close();
             return file;
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -86,6 +97,18 @@ public class RegisterOrganizationActivity extends AppCompatActivity {
 
     private void register() {
 
+        // ✅ VALIDATION (MOST IMPORTANT)
+        if (etName.getText().toString().trim().isEmpty()
+                || etEmail.getText().toString().trim().isEmpty()
+                || etPassword.getText().toString().trim().isEmpty()
+                || etContact.getText().toString().trim().isEmpty()
+                || etAddress.getText().toString().trim().isEmpty()
+                || etPincode.getText().toString().trim().isEmpty()) {
+
+            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (selectedFilePath == null) {
             Toast.makeText(this, "Please upload document", Toast.LENGTH_SHORT).show();
             return;
@@ -93,30 +116,28 @@ public class RegisterOrganizationActivity extends AppCompatActivity {
 
         File file = new File(selectedFilePath);
 
-        // 🔥 Spinner value backend enum शी match
         String rawType = spinnerType.getSelectedItem().toString();
-        String type = rawType.equals("Orphanage") ? "ORPHANAGE" : "OLD_AGE_HOME";
+        String type = rawType.equalsIgnoreCase("Orphanage")
+                ? "ORPHANAGE"
+                : "OLD_AGE_HOME";
 
         ApiService api = RetrofitClient.getClient().create(ApiService.class);
 
         Call<String> call = api.registerOrganization(
-                rb(etName.getText().toString()),
-                rb(etEmail.getText().toString()),
-                rb(etPassword.getText().toString()),
-                rb(etContact.getText().toString()),
+                rb(etName.getText().toString().trim()),
+                rb(etEmail.getText().toString().trim()),
+                rb(etPassword.getText().toString().trim()),
+                rb(etContact.getText().toString().trim()),
                 rb(type),
-                rb(etAddress.getText().toString()),
-                rb(etPincode.getText().toString()),
-                rb("1"),   // TEMP userId OK
+                rb(etAddress.getText().toString().trim()),
+                rb(etPincode.getText().toString().trim()),
+                rb("1"), // TEMP userId
                 MultipartBody.Part.createFormData(
                         "document",
                         file.getName(),
-                        RequestBody.create(
-                                MediaType.parse("multipart/form-data"), file
-                        )
+                        RequestBody.create(MediaType.parse("multipart/form-data"), file)
                 )
         );
-
 
         call.enqueue(new Callback<String>() {
             @Override
@@ -128,15 +149,16 @@ public class RegisterOrganizationActivity extends AppCompatActivity {
                     finish();
                 } else {
                     Toast.makeText(RegisterOrganizationActivity.this,
-                            "Failed: " + response.code(),
+                            "Failed : " + response.code(),
                             Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                Log.e("ORG_REGISTER_ERROR", t.getMessage());
                 Toast.makeText(RegisterOrganizationActivity.this,
-                        t.getMessage(),
+                        "Error : " + t.getMessage(),
                         Toast.LENGTH_LONG).show();
             }
         });

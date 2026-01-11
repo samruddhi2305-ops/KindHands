@@ -34,7 +34,9 @@ public class LoginActivity extends AppCompatActivity {
 
         // CHECK IF ALREADY LOGGED IN
         if (SharedPrefManager.getInstance(this).isLoggedIn()) {
-            navigateToDashboard(); // Redirect based on stored user type
+            Intent intent = new Intent(LoginActivity.this, AddDonationActivity.class);
+            startActivity(intent);
+            finish();
             return;
         }
 
@@ -76,8 +78,9 @@ public class LoginActivity extends AppCompatActivity {
             // CHECK FOR ADMIN LOGIN FIRST (Case Insensitive Email)
             if ("admin@kindhands.com".equalsIgnoreCase(email) && "admin123".equals(password)) {
                 Toast.makeText(LoginActivity.this, "Welcome Admin!", Toast.LENGTH_SHORT).show();
-                SharedPrefManager.getInstance(LoginActivity.this).saveUser("Admin", "admin@kindhands.com", "ADMIN");
-                navigateToDashboard();
+                Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+                startActivity(intent);
+                finish();
                 return; // Stop further execution
             }
 
@@ -143,31 +146,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void navigateToDashboard() {
-        String userType = SharedPrefManager.getInstance(this).getUserType();
-        Intent intent;
-
-        if (userType != null) {
-            switch (userType) {
-                case "ADMIN":
-                    intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
-                    break;
-                case "DONOR":
-                    intent = new Intent(LoginActivity.this, AddDonationActivity.class);
-                    break;
-                case "ORGANIZATION":
-                    // Replace with your actual Organization Dashboard activity
-                    intent = new Intent(LoginActivity.this, OrganizationDashboardActivity.class); 
-                    break;
-                default:
-                    // Fallback, maybe to a generic home screen or back to login
-                    intent = new Intent(LoginActivity.this, LoginActivity.class);
-                    break;
-            }
-        } else {
-            // If userType is null, default to login
-            intent = new Intent(LoginActivity.this, LoginActivity.class);
-        }
-
+        Intent intent = new Intent(LoginActivity.this, AddDonationActivity.class);
         startActivity(intent);
         finish();
     }
