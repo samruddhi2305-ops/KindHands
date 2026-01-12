@@ -2,7 +2,8 @@ package com.kindhands.app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;import android.widget.Button;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,9 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // CHECK IF ALREADY LOGGED IN
         if (SharedPrefManager.getInstance(this).isLoggedIn()) {
-            Intent intent = new Intent(LoginActivity.this, AddDonationActivity.class);
-            startActivity(intent);
-            finish();
+            navigateToDashboard();
             return;
         }
 
@@ -51,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
 
         // Forgot Password Click Listener
         tvForgotPassword.setOnClickListener(v -> {
-            // Navigate to the activity for entering a phone number
             Intent intent = new Intent(LoginActivity.this, ForgotPasswordPhoneActivity.class);
             startActivity(intent);
         });
@@ -75,16 +73,16 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            // CHECK FOR ADMIN LOGIN FIRST (Case Insensitive Email)
+            // CHECK FOR ADMIN LOGIN FIRST
             if ("admin@kindhands.com".equalsIgnoreCase(email) && "admin123".equals(password)) {
                 Toast.makeText(LoginActivity.this, "Welcome Admin!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
                 startActivity(intent);
                 finish();
-                return; // Stop further execution
+                return;
             }
 
-            // IF NOT ADMIN, TRY DONOR LOGIN
+            // TRY DONOR LOGIN
             ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
             User loginUser = new User(email, password);
             Call<User> callDonor = apiService.loginDonor(loginUser);
@@ -106,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<User> call, Throwable t) {
-                    // IF NETWORK ERROR OR OTHER ISSUE, TRY ORGANIZATION LOGIN ANYWAY (OR SHOW ERROR)
                     tryOrganizationLogin(email, password);
                 }
             });
@@ -146,7 +143,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void navigateToDashboard() {
-        Intent intent = new Intent(LoginActivity.this, AddDonationActivity.class);
+        String type = SharedPrefManager.getInstance(this).getUserType();
+        Intent intent;
+
+        if ("ORGANIZATION".equals(type)) {
+            intent = new Intent(LoginActivity.this, OrganizationDashboardActivity.class);
+        } else if ("ADMIN".equals(type)) {
+            intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+        } else {
+            // Default to Donor Dashboard
+            intent = new Intent(LoginActivity.this, AddDonationActivity.class);
+        }
+
         startActivity(intent);
         finish();
     }
