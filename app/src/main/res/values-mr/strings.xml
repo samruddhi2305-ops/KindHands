@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kind Hands </string>
+    <string name="app_logo_desc">Kind Hands लोगो</string>
+    <string name="tagline">गरजू हृदयांना जोडणारे</string>
+    <string name="donate_items">वस्तू दान करा</string>
+    <string name="ngo_login">संस्था लॉगिन</string>
+    <string name="register_prompt">नवीन वापरकर्ता? येथे नोंदणी करा</string>
+    <string name="welcome_message">Kind Hands मध्ये आपले स्वागत आहे – छोटी मदत, मोठे हास्य</string>
+    <string name="card_donate">दान करा</string>
+    <string name="card_ngo_needs">NGO च्या गरजा</string>
+    <string name="card_how_it_works">हे कसे कार्य करते</string>
+    <string name="what_you_can_donate">तुम्ही काय दान करू शकता</string>
+    <string name="cat_clothes">👕 कपडे</string>
+    <string name="cat_books">📚 पुस्तके</string>
+    <string name="cat_food">🍞 अन्न</string>
+    <string name="cat_toys">🧸 खेळणी</string>
+    <string name="impact_donors">🧑‍🤝‍🧑 १२०+ देणगीदार</string>
+    <string name="impact_ngos">🏠 ४५ स्वयंसेवी संस्था</string>
+    <string name="impact_items">📦 ३००+ वस्तू</string>
+    <string name="email_hint">ईमेल</string>
+    <string name="password_hint">पासवर्ड</string>
+    <string name="login_button">लॉगिन</string>
+    <string name="register_link">खाते नाही? नोंदणी करा</string>
+
+    <!-- Register Screen Strings -->
+    <string name="register_title">खाते तयार करा</string>
+    <string name="full_name_hint">पूर्ण नाव</string>
+    <string name="phone_hint">फोन नंबर</string>
+    <string name="confirm_password_hint">पासवर्डची </string>
+    <string name="register_button">नोंदणी करा</string>
+    <string name="already_have_account">आधीच खाते आहे? लॉगिन करा</string>
+    <string name="user_type_orphanage">अनाथालय</string>
+    <string name="user_type_oldage">वृद्धाश्रम</string>
+    <string name="user_type_donor">दाता</string>
+    <string name="select_user_type">वापरकर्त्याचा प्रकार निवडा</string>
+
+    <!-- Donation Details Strings -->
+    <string name="donation_details_title">देणगी तपशील</string>
+    <string name="item_description_hint">वस्तूचे वर्णन</string>
+    <string name="quantity_hint">प्रमाण</string>
+    <string name="condition_label">स्थिती</string>
+    <string name="condition_new">नवीन</string>
+    <string name="condition_used">हलके वापरलेले</string>
+    <string name="condition_repair">दुरुस्तीची गरज</string>
+    <string name="preferred_ngo_hint">पसंतीची NGO (ऐच्छिक)</string>
+    <string name="submit_button">सादर करा</string>
+    <string name="book_name_hint">पुस्तकाचे नाव</string>
+    <string name="book_category_hint">श्रेणी (शिक्षण, कथा, धार्मिक)</string>
+    <string name="medicine_name_hint">औषधाचे नाव</string>
+    <string name="medicine_expiry_hint">समाप्तीची तारीख</string>
+    <string name="toy_type_label">खेळण्याचा प्रकार</string>
+</resources>
