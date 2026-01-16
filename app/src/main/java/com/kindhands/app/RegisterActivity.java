@@ -10,8 +10,6 @@ import com.kindhands.app.model.User;
 import com.kindhands.app.network.ApiService;
 import com.kindhands.app.network.RetrofitClient;
 
-import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,30 +24,42 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.register);
+        try {
+            setContentView(R.layout.register);
 
-        etName = findViewById(R.id.etRegisterName);
-        etEmail = findViewById(R.id.etRegisterEmail);
-        etPhone = findViewById(R.id.etRegisterPhone);
-        etAddress = findViewById(R.id.etRegisterAddress);
-        etPincode = findViewById(R.id.etRegisterPincode);
-        etPassword = findViewById(R.id.etRegisterPassword);
-        spinnerGender = findViewById(R.id.spinnerGender);
-        btnRegister = findViewById(R.id.btnRegister);
-        tvGoToOrgRegister = findViewById(R.id.tvGoToOrgRegister);
-        tvGoToLogin = findViewById(R.id.tvGoToLogin);
+            etName = findViewById(R.id.etRegisterName);
+            etEmail = findViewById(R.id.etRegisterEmail);
+            etPhone = findViewById(R.id.etRegisterPhone);
+            etAddress = findViewById(R.id.etRegisterAddress);
+            etPincode = findViewById(R.id.etRegisterPincode);
+            etPassword = findViewById(R.id.etRegisterPassword);
+            spinnerGender = findViewById(R.id.spinnerGender);
+            btnRegister = findViewById(R.id.btnRegister);
+            tvGoToOrgRegister = findViewById(R.id.tvGoToOrgRegister);
+            tvGoToLogin = findViewById(R.id.tvGoToLogin);
 
-        String[] genders = {"Male", "Female", "Other"};
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, genders);
-        spinnerGender.setAdapter(adapter);
+            String[] genders = {"Male", "Female", "Other"};
+            ArrayAdapter<String> adapter =
+                    new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, genders);
+            spinnerGender.setAdapter(adapter);
 
-        tvGoToOrgRegister.setOnClickListener(v ->
-                startActivity(new Intent(this, RegisterOrganizationActivity.class)));
+            tvGoToOrgRegister.setOnClickListener(v ->
+                    startActivity(new Intent(this, RegisterOrganizationActivity.class)));
 
-        btnRegister.setOnClickListener(v -> registerUser());
+            btnRegister.setOnClickListener(v -> registerUser());
 
-        tvGoToLogin.setOnClickListener(v -> finish());
+            tvGoToLogin.setOnClickListener(v -> {
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            });
+            
+        } catch (Exception e) {
+            Log.e("REGISTER_CRASH", "Error in onCreate", e);
+            Toast.makeText(this, "Layout Error: Check your XML", Toast.LENGTH_LONG).show();
+            finish();
+        }
     }
 
     private void registerUser() {
@@ -66,43 +76,46 @@ public class RegisterActivity extends AppCompatActivity {
                 "DONOR"
         );
 
+        btnRegister.setEnabled(false);
+        btnRegister.setText("Registering...");
+
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
 
-        Call<Map<String, String>> call = apiService.registerUser(newUser);
+        // Switching to loginDonor endpoint which you said works in Postman for Donors
+        // Or if you have a specific registerDonor endpoint in your backend, use that.
+        Call<User> call = apiService.registerDonor(newUser);
 
-        call.enqueue(new Callback<Map<String, String>>() {
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<Map<String, String>> call,
-                                   Response<Map<String, String>> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
+                btnRegister.setEnabled(true);
+                btnRegister.setText("Register");
 
                 if (response.isSuccessful() && response.body() != null) {
-                    Toast.makeText(
-                            RegisterActivity.this,
-                            response.body().get("message"),
-                            Toast.LENGTH_LONG
-                    ).show();
-
+                    Toast.makeText(RegisterActivity.this, "Registration Successful!", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-
+                    finish();
                 } else {
-                    Toast.makeText(
-                            RegisterActivity.this,
-                            "Registration Failed : " + response.code(),
-                            Toast.LENGTH_LONG
-                    ).show();
+                    String error = "Failed: " + response.code();
+                    try {
+                        if (response.errorBody() != null) {
+                            error = response.errorBody().string();
+                        }
+                    } catch (Exception e) { e.printStackTrace(); }
+                    
+                    Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_LONG).show();
+                    Log.e("REGISTER_FAIL", error);
                 }
             }
 
             @Override
-            public void onFailure(Call<Map<String, String>> call, Throwable t) {
-                Toast.makeText(
-                        RegisterActivity.this,
-                        "Network Error : " + t.getMessage(),
-                        Toast.LENGTH_LONG
-                ).show();
-                Log.e("REGISTER_ERROR", t.getMessage(), t);
+            public void onFailure(Call<User> call, Throwable t) {
+                btnRegister.setEnabled(true);
+                btnRegister.setText("Register");
+                Toast.makeText(RegisterActivity.this, "Network Error: Use Computer IP, not localhost", Toast.LENGTH_LONG).show();
+                Log.e("REGISTER_NETWORK", t.getMessage(), t);
             }
         });
     }
